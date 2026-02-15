@@ -1,11 +1,15 @@
 ---
+// 导入所需组件
 import Header from '../components/Header.astro';
-// 如果你有其他导入，保留它们
-// 全局布局，包含 head, header, footer
+import Footer from '../components/Footer.astro';
+
+// 定义页面 Props 类型（用于传入标题和描述）
 export interface Props {
   title: string;
   description?: string;
 }
+
+// 接收传入的 props
 const { title, description } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -26,7 +30,7 @@ const { title, description } = Astro.props;
 <body>
   <Header />
   <main class="container">
-    <slot />
+    <slot />  <!-- 页面内容将插入这里 -->
   </main>
   <Footer />
 </body>
