@@ -4,7 +4,7 @@ interface Props {
 	title: string;
 	description?: string;
 }
-
+import Header from '../components/Header.astro';
 const { title, description = "Leading manufacturer of corrugated pipe machines." } = Astro.props;
 ---
 
@@ -40,4 +40,8 @@ const { title, description = "Leading manufacturer of corrugated pipe machines."
 			<p>&copy; {new Date().getFullYear()} Wings Corrugator Machinery.</p>
 		</footer>
 	</body>
+    <body>
+    <Header />
+    <slot />
+</body>
 </html>
