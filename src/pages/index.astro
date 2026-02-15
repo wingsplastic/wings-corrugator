@@ -1,40 +1,24 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-
-// 获取所有博客文章，并按时间倒序排列
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+import Layout from '../layouts/Layout.astro';
 ---
+<Layout title="Home - Professional Corrugated Pipe Machinery">
+  <section style="text-align: center; padding: 4rem 0;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to Wings Corrugator</h1>
+    <p style="font-size: 1.25rem; color: #475569; max-width: 800px; margin: 0 auto;">Leading manufacturer of high-quality double wall, single wall, and spiral wound corrugated pipe production lines.</p>
+  </section>
 
-<Layout title="Company News | Wings Plastic">
-	<main class="max-w-4xl mx-auto py-12 px-4">
-		<h1 class="text-4xl font-bold mb-8 text-center">Company News</h1>
-		
-		<div class="grid gap-8 md:grid-cols-2">
-			{posts.map((post) => (
-				<article class="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
-					<a href={`/blog/${post.slug}/`}>
-						{post.data.heroImage && (
-							<img width={720} height={360} src={post.data.heroImage} alt="" class="w-full h-48 object-cover" />
-						)}
-						<div class="p-6">
-							<h3 class="text-xl font-bold mb-2 text-blue-900">{post.data.title}</h3>
-							<p class="text-gray-500 text-sm mb-4">
-								{post.data.pubDate.toLocaleDateString('en-us', {
-									year: 'numeric',
-									month: 'short',
-									day: 'numeric',
-								})}
-							</p>
-							<p class="text-gray-700 line-clamp-3">
-                                {post.body.slice(0, 100)}...
-                            </p>
-						</div>
-					</a>
-				</article>
-			))}
-		</div>
-	</main>
+  <section style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 4rem 0;">
+    <div style="background: #f8fafc; padding: 2rem; border-radius: 1rem;">
+      <h3>Double Wall Corrugator</h3>
+      <p>HDPE/PVC, 110-800mm diameter, up to 450kg/h output.</p>
+    </div>
+    <div style="background: #f8fafc; padding: 2rem; border-radius: 1rem;">
+      <h3>Single Wall Corrugator</h3>
+      <p>For cable conduits, 16-63mm diameter, high speed.</p>
+    </div>
+    <div style="background: #f8fafc; padding: 2rem; border-radius: 1rem;">
+      <h3>Spiral Wound Pipe Line</h3>
+      <p>Large diameter up to 3000mm for drainage.</p>
+    </div>
+  </section>
 </Layout>
