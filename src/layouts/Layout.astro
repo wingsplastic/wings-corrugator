@@ -1,10 +1,22 @@
----
-import Header from '../components/Header.astro';
-// ... 其他导入
----
-<html>
-    <body>
-        <Header />
-        <slot />
-    </body>
-</html>
+<Header />
+<main>
+    <section id="application" class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Industrial Applications</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <h3 class="font-bold text-xl mb-2">Municipal Drainage</h3>
+                    <p class="text-gray-600">Our large diameter DWC pipes (up to ID 1600mm) are ideal for sewage systems.</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-bold text-xl mb-2">Cable Protection</h3>
+                    <p class="text-gray-600">Precision single wall pipes for electrical and telecommunication infrastructure.</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="font-bold text-xl mb-2">Water Management</h3>
+                    <p class="text-gray-600">Specialized spiral pipe solutions for irrigation and industrial water transport.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
