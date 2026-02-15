@@ -1,22 +1,31 @@
-<Header />
-<main>
-    <section id="application" class="py-16 bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Industrial Applications</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <h3 class="font-bold text-xl mb-2">Municipal Drainage</h3>
-                    <p class="text-gray-600">Our large diameter DWC pipes (up to ID 1600mm) are ideal for sewage systems.</p>
-                </div>
-                <div class="text-center">
-                    <h3 class="font-bold text-xl mb-2">Cable Protection</h3>
-                    <p class="text-gray-600">Precision single wall pipes for electrical and telecommunication infrastructure.</p>
-                </div>
-                <div class="text-center">
-                    <h3 class="font-bold text-xl mb-2">Water Management</h3>
-                    <p class="text-gray-600">Specialized spiral pipe solutions for irrigation and industrial water transport.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
+---
+// 全局布局，包含 head, header, footer
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Wings Corrugator</title>
+  <meta name="description" content={description || 'Professional corrugated pipe machinery manufacturer'} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background: #ffffff; color: #1e293b; line-height: 1.5; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    main { min-height: 60vh; padding: 3rem 0; }
+  </style>
+</head>
+<body>
+  <Header />
+  <main class="container">
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>
