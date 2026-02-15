@@ -1,47 +1,10 @@
 ---
-// src/layouts/Layout.astro
-interface Props {
-	title: string;
-	description?: string;
-}
 import Header from '../components/Header.astro';
-const { title, description = "Leading manufacturer of corrugated pipe machines." } = Astro.props;
+// ... 其他导入
 ---
-
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" /><script is:inline src="https://cdn.tailwindcss.com"></script>
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<meta name="description" content={description} />
-        <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-	</head>
-	<body class="font-sans bg-white text-gray-900">
-		<nav class="bg-white border-b sticky top-0 z-50">
-			<div class="container mx-auto px-4 h-20 flex items-center justify-between">
-				<a href="/" class="text-2xl font-bold text-blue-900">
-					<span class="text-red-600">WINGS</span>CORRUGATOR
-				</a>
-				<div class="hidden md:flex space-x-8 font-medium">
-					<a href="/" class="hover:text-red-600">Home</a>
-					<a href="#products" class="hover:text-red-600">Products</a>
-					<a href="#contact" class="hover:text-red-600">Contact</a>
-				</div>
-                <a href="#contact" class="bg-blue-900 text-white px-6 py-2 rounded-full hover:bg-red-600 transition">Inquiry</a>
-			</div>
-		</nav>
-		<main>
-			<slot />
-		</main>
-		<footer class="bg-gray-900 text-white py-12 text-center">
-			<p>&copy; {new Date().getFullYear()} Wings Corrugator Machinery.</p>
-		</footer>
-	</body>
+<html>
     <body>
-    <Header />
-    <slot />
-</body>
+        <Header />
+        <slot />
+    </body>
 </html>
