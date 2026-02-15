@@ -1,0 +1,46 @@
+---
+// src/components/ContactForm.astro
+---
+<section class="bg-gray-100 py-16" id="contact">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8 text-blue-900">Get A Quote & Free Formula</h2>
+    
+    <form 
+      name="contact" 
+      method="POST" 
+      data-netlify="true" 
+      netlify-honeypot="bot-field"
+      action="/success"
+      class="bg-white p-8 shadow-lg rounded-lg"
+    >
+      <p class="hidden">
+        <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">Name *</label>
+          <input type="text" name="name" required class="w-full border p-3 rounded focus:outline-none focus:border-blue-500" placeholder="John Doe">
+        </div>
+        <div>
+          <label class="block text-gray-700 font-bold mb-2">Email *</label>
+          <input type="email" name="email" required class="w-full border p-3 rounded focus:outline-none focus:border-blue-500" placeholder="john@example.com">
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <label class="block text-gray-700 font-bold mb-2">Pipe Diameter Range (mm) *</label>
+        <input type="text" name="pipe_range" required class="w-full border p-3 rounded" placeholder="e.g., ID 200mm - 800mm">
+      </div>
+
+      <div class="mt-6">
+        <label class="block text-gray-700 font-bold mb-2">Message</label>
+        <textarea name="message" rows="4" class="w-full border p-3 rounded" placeholder="I am interested in your High Speed DWC machine..."></textarea>
+      </div>
+
+      <button type="submit" class="mt-8 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded transition duration-300">
+        SEND INQUIRY NOW
+      </button>
+    </form>
+  </div>
+</section>

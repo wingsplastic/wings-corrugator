@@ -1,0 +1,49 @@
+backend:
+  name: git-gateway
+  branch: main # 确保你的 GitHub 分支叫 main
+
+media_folder: "public/images/uploads" # 图片上传到哪里
+public_folder: "/images/uploads"      # 网页怎么读取图片
+
+# 这一行必须有，否则不能发布
+publish_mode: editorial_workflow
+
+# 这一行解决图片路径问题
+slug:
+  encoding: "ascii"
+  clean_accents: true
+
+collections:
+  # 1. 博客文章 (Blog)
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Publish Date", name: "pubDate", widget: "datetime"}
+      - {label: "Cover Image", name: "heroImage", widget: "image"}
+      - {label: "Category", name: "category", widget: "select", options: ["Technical Guide", "Buying Guide", "News"]}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # 2. 产品管理 (Products)
+  - name: "products"
+    label: "Products"
+    folder: "src/content/products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Product Name", name: "title", widget: "string"}
+      - {label: "Short Description", name: "description", widget: "text"}
+      - {label: "Product Image", name: "image", widget: "image"}
+      - {label: "Category", name: "category", widget: "select", options: ["Double Wall", "Single Wall", "Spiral"]}
+      # 下面这个列表让你自由添加参数 (比如 ID: 200mm)
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        fields:
+          - {label: "Label", name: "label", widget: "string", default: "Pipe Range"}
+          - {label: "Value", name: "value", widget: "string", default: "ID 75-200mm"}
+      - {label: "Detailed Intro", name: "body", widget: "markdown"}

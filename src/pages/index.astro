@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout title="Wings Corrugator | High Speed Corrugated Pipe Machines">
+  
+  <header class="relative bg-blue-900 text-white h-[80vh] flex items-center justify-center">
+    <div class="absolute inset-0 bg-black opacity-50 z-10"></div>
+    <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6">
+        From Micro ID 4.5mm <br/> to Massive ID 1600mm.
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 text-gray-200">
+        The Expert in Corrugated Pipe Extrusion. <br/>
+        Running stably at <span class="text-yellow-400 font-bold">35m/min</span>.
+      </p>
+      <div class="flex gap-4 justify-center">
+        <a href="#contact" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded font-bold text-lg transition">Get A Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="products" class="py-20 container mx-auto px-4">
+    <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Our Core Solutions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="border rounded-lg overflow-hidden shadow-lg p-8">
+        <h3 class="text-2xl font-bold mb-2">Double Wall Corrugated</h3>
+        <p class="text-gray-600 mb-4">ID 20mm - 1600mm for Sewage & Drainage.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+            <li>✅ Range: <strong>ID 20mm - 1600mm</strong></li>
+        </ul>
+      </div>
+      <div class="border rounded-lg overflow-hidden shadow-lg p-8">
+        <h3 class="text-2xl font-bold mb-2">Single Wall Corrugated</h3>
+        <p class="text-gray-600 mb-4">High speed 35m/min for Auto Harness.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+            <li>✅ Min Size: <strong>ID 4.5mm</strong></li>
+        </ul>
+      </div>
+      <div class="border rounded-lg overflow-hidden shadow-lg p-8">
+        <h3 class="text-2xl font-bold mb-2">Spiral & Special Pipe</h3>
+        <p class="text-gray-600 mb-4">Pre-stressed & EVA Vacuum Hoses.</p>
+        <ul class="text-sm text-gray-500 space-y-2">
+            <li>✅ Focus: <strong>Pre-stressed, EVA</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <ContactForm />
+
+</Layout>
