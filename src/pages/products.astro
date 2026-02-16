@@ -1,40 +1,60 @@
 ---
-// src/pages/products.astro
-import Layout from '../layouts/Layout.astro';
+// src/pages/products/[...slug].astro
+import Layout from '../../layouts/Layout.astro';
 
-// 获取所有产品内容（通过 Astro 的内容集合）
-// 注意：这里使用 glob 导入 .md 文件
-const productFiles = await Astro.glob('../content/products/*.md');
+// 获取所有产品文件
+export async function getStaticPaths() {
+  // 使用 Astro.glob 获取所有 .md 产品文件
+  const productFiles = await Astro.glob('../../content/products/*.md');
 
-// 为每个产品生成更可靠的 slug 和链接
-const products = productFiles.map((file) => {
-  // 方式1: 优先使用 frontmatter 中自定义的 slug
-  // 方式2: 如果没有，则从文件名中提取 (例如: 'my-product.md' 变成 'my-product')
-  const slug = file.frontmatter.slug || file.file.split('/').pop()?.replace('.md', '') || '';
+  // 为每个产品生成一个路径
+  return productFiles.map((file) => {
+    // 生成 slug：优先使用 frontmatter 中的 slug，否则从文件名获取
+    const slug = file.frontmatter?.slug || file.file.split('/').pop()?.replace('.md', '') || '';
+    return {
+      params: { slug }, // 这里的 slug 会替换 URL 中的 [...slug]
+      props: { product: file }, // 将产品数据作为 props 传递给页面
+    };
+  });
+}
 
-  return {
-    ...file,
-    slug: slug, // 将生成的 slug 添加到对象中
-  };
-});
+// 接收从 getStaticPaths 传递过来的 props
+const { product } = Astro.props;
+
+// 如果 product 不存在（理论上不会发生，但加上安全判断）
+if (!product) {
+  return Astro.redirect('/404');
+}
 ---
 
-<Layout title="Products - Wings Corrugator">
-  <h1>Our Products</h1>
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
-    {products.map((product) => (
-      // 使用新生成的 product.slug 来构建链接
-      <a href={`/products/${product.slug}`} style="text-decoration: none; color: inherit;">
-        <div style="border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; transition: box-shadow 0.3s;">
-          {product.frontmatter.image && (
-            <img src={product.frontmatter.image} alt={product.frontmatter.title} style="width: 100%; height: 200px; object-fit: cover;" />
-          )}
-          <div style="padding: 1.5rem;">
-            <h3 style="margin-bottom: 0.5rem;">{product.frontmatter.title}</h3>
-            <p style="color: #475569;">{product.frontmatter.description}</p>
-          </div>
-        </div>
-      </a>
-    ))}
-  </div>
+<Layout title={`${product.frontmatter.title} - Wings Corrugator`}>
+  <article style="max-width: 800px; margin: 0 auto;">
+    <h1>{product.frontmatter.title}</h1>
+    {product.frontmatter.image && (
+      <img src={product.frontmatter.image} alt={product.frontmatter.title} style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 1rem; margin: 2rem 0;" />
+    )}
+    
+    {product.frontmatter.parameters && (
+      <section style="margin: 2rem 0;">
+        <h2>Technical Parameters</h2>
+        <!-- 注意：parameters 字段如果是 Markdown 字符串，需要用 set:html 渲染 -->
+        <div set:html={product.frontmatter.parameters} />
+      </section>
+    )}
+    
+    {product.frontmatter.features && (
+      <section style="margin: 2rem 0;">
+        <h2>Key Features</h2>
+        <ul>
+          {product.frontmatter.features.map((feature) => <li>{feature}</li>)}
+        </ul>
+      </section>
+    )}
+    
+    <div style="margin: 2rem 0;">
+      <h2>Description</h2>
+      <!-- 渲染 Markdown 内容，可能是 product.body 或 product.frontmatter.body -->
+      <div set:html={product.body || product.frontmatter.body} />
+    </div>
+  </article>
 </Layout>
