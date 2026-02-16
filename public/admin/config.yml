@@ -19,6 +19,28 @@ collections:
       - { label: "Features", name: "features", widget: "list" }
       - { label: "Body", name: "body", widget: "markdown" }
 
+  - name: "applications"
+    label: "Applications"
+    folder: "src/content/applications"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "solutions"
+    label: "Solutions"
+    folder: "src/content/solutions"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
   - name: "news"
     label: "News"
     folder: "src/content/news"
