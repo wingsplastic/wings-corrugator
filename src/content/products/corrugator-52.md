@@ -1,5 +1,6 @@
 ---
 title: Corrugator-52
+category: SWC Pipe Corrugator
 description: >
   This is a machine could be made 10-52mm OD single wall corrugtor in highest
   speed.
