@@ -6,7 +6,7 @@ media_folder: public/images
 public_folder: /images
 
 collections:
-   - name: "products"
+  - name: "products"
     label: "Products"
     folder: "src/content/products"
     create: true
