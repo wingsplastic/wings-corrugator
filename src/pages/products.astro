@@ -2,36 +2,51 @@
 // src/pages/products.astro
 import Layout from '../layouts/Layout.astro';
 
-// 获取所有产品内容（通过 Astro 的内容集合）
-// 注意：这里使用 glob 导入 .md 文件
-const productFiles = await Astro.glob('../content/products/*.md');
+// 获取所有产品
+const allProducts = await Astro.glob('../content/products/*.md');
 
-// 为每个产品生成更可靠的 slug 和链接
-const products = productFiles.map((file) => {
-  // 方式1: 优先使用 frontmatter 中自定义的 slug
-  // 方式2: 如果没有，则从文件名中提取 (例如: 'my-product.md' 变成 'my-product')
-  const slug = file.frontmatter.slug || file.file.split('/').pop()?.replace('.md', '') || '';
+// 定义所有分类（与 CMS 选项一致）
+const categories = [
+  "Extruders",
+  "Extrusion Moulds",
+  "SWC Pipe Corrugator",
+  "DWC Pipe Corrugator",
+  "Spiral Pipe Corrugator",
+  "Pipe Winder Units",
+  "Spiral Wrap Units"
+];
 
+// 为每个分类生成展示信息
+const categoryInfo = categories.map(cat => {
+  const slug = cat.toLowerCase().replace(/\s+/g, '-');
+  const productsInCat = allProducts.filter(p => p.frontmatter.category === cat);
+  const sampleImage = productsInCat.length > 0 ? productsInCat[0].frontmatter.image : null;
   return {
-    ...file,
-    slug: slug, // 将生成的 slug 添加到对象中
+    name: cat,
+    slug,
+    count: productsInCat.length,
+    image: sampleImage
   };
 });
 ---
 
 <Layout title="Products - Wings Corrugator">
   <h1>Our Products</h1>
+  <p>Browse our product categories below.</p>
   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
-    {products.map((product) => (
-      // 使用新生成的 product.slug 来构建链接
-      <a href={`/products/${product.slug}`} style="text-decoration: none; color: inherit;">
+    {categoryInfo.map(cat => (
+      <a href={`/products/category/${cat.slug}`} style="text-decoration: none; color: inherit;">
         <div style="border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; transition: box-shadow 0.3s;">
-          {product.frontmatter.image && (
-            <img src={product.frontmatter.image} alt={product.frontmatter.title} style="width: 100%; height: 200px; object-fit: cover;" />
+          {cat.image ? (
+            <img src={cat.image} alt={cat.name} style="width: 100%; height: 200px; object-fit: cover;" />
+          ) : (
+            <div style="width: 100%; height: 200px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #64748b;">
+              No image
+            </div>
           )}
           <div style="padding: 1.5rem;">
-            <h3 style="margin-bottom: 0.5rem;">{product.frontmatter.title}</h3>
-            <p style="color: #475569;">{product.frontmatter.description}</p>
+            <h3 style="margin-bottom: 0.5rem;">{cat.name}</h3>
+            <p style="color: #475569;">{cat.count} product{cat.count !== 1 ? 's' : ''}</p>
           </div>
         </div>
       </a>
