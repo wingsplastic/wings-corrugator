@@ -1,1 +1,51 @@
+---
+// src/pages/products/[...slug].astro
+import Layout from '../../layouts/Layout.astro';
 
+// 获取所有产品
+const allProducts = await Astro.glob('../../content/products/*.md');
+
+// 获取当前页面的 slug（从 URL 中）
+const { slug } = Astro.params;
+
+// 查找匹配的产品
+const product = allProducts.find((p) => {
+  const fileSlug = p.url.split('/').pop().replace('.md', '');
+  return fileSlug === slug || p.frontmatter.slug === slug;
+});
+
+// 如果找不到产品，返回 404
+if (!product) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={`${product.frontmatter.title} - Wings Corrugator`}>
+  <article style="max-width: 800px; margin: 0 auto;">
+    <h1>{product.frontmatter.title}</h1>
+    {product.frontmatter.image && (
+      <img src={product.frontmatter.image} alt={product.frontmatter.title} style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 1rem; margin: 2rem 0;" />
+    )}
+    
+    {product.frontmatter.parameters && (
+      <section style="margin: 2rem 0;">
+        <h2>Technical Parameters</h2>
+        <div set:html={product.frontmatter.parameters} />
+      </section>
+    )}
+    
+    {product.frontmatter.features && (
+      <section style="margin: 2rem 0;">
+        <h2>Key Features</h2>
+        <ul>
+          {product.frontmatter.features.map(feature => <li>{feature}</li>)}
+        </ul>
+      </section>
+    )}
+    
+    <div style="margin: 2rem 0;">
+      <h2>Description</h2>
+      <div set:html={product.frontmatter.body || product.body} />
+    </div>
+  </article>
+</Layout>
