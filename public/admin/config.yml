@@ -6,13 +6,14 @@ media_folder: public/images
 public_folder: /images
 
 collections:
-  - name: "products"
+   - name: "products"
     label: "Products"
     folder: "src/content/products"
     create: true
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Extruders", "Extrusion Moulds", "SWC Pipe Corrugator", "DWC Pipe Corrugator", "Spiral Pipe Corrugator", "Pipe Winder Units", "Spiral Wrap Units"] }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Main Image", name: "image", widget: "image" }
       - { label: "Parameters", name: "parameters", widget: "markdown" }
