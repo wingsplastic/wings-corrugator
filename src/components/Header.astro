@@ -1,12 +1,28 @@
 ---
 // src/components/Header.astro
 ---
+
 <header style="background: #0f172a; color: white; padding: 1rem 0;">
   <div class="container" style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     <a href="/" style="color: white; text-decoration: none; font-size: 1.5rem; font-weight: bold;">Wings Corrugator</a>
-    <nav style="display: flex; gap: 2rem;">
+    <nav style="display: flex; gap: 2rem; position: relative;">
+      <!-- 普通链接 -->
       <a href="/" style="color: white; text-decoration: none;">Home</a>
-      <a href="/products" style="color: white; text-decoration: none;">Products</a>
+      
+      <!-- Products 下拉菜单 -->
+      <div style="position: relative; display: inline-block;">
+        <a href="/products" style="color: white; text-decoration: none; cursor: default;">Products ▾</a>
+        <div class="dropdown-content" style="display: none; position: absolute; top: 100%; left: 0; background-color: #1e293b; min-width: 250px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1; border-radius: 0.5rem; padding: 0.5rem 0;">
+          <a href="/products/category/extruders" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Extruders</a>
+          <a href="/products/category/extrusion-moulds" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Extrusion Moulds</a>
+          <a href="/products/category/swc-pipe-corrugator" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">SWC Pipe Corrugator</a>
+          <a href="/products/category/dwc-pipe-corrugator" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">DWC Pipe Corrugator</a>
+          <a href="/products/category/spiral-pipe-corrugator" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Spiral Pipe Corrugator</a>
+          <a href="/products/category/pipe-winder-units" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Pipe Winder Units</a>
+          <a href="/products/category/spiral-wrap-units" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Spiral Wrap Units</a>
+        </div>
+      </div>
+
       <a href="/applications" style="color: white; text-decoration: none;">Applications</a>
       <a href="/solutions" style="color: white; text-decoration: none;">Solutions</a>
       <a href="/news" style="color: white; text-decoration: none;">News</a>
@@ -15,3 +31,14 @@
     </nav>
   </div>
 </header>
+
+<style>
+  /* 使用 :global 确保样式不受 Astro 组件作用域影响 */
+  :global(nav > div:hover .dropdown-content) {
+    display: block !important;
+  }
+  :global(.dropdown-content a:hover) {
+    background-color: #334155;
+    color: white !important;
+  }
+</style>
