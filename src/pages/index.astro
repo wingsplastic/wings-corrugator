@@ -1,24 +1,966 @@
 ---
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
+
+// 产品数据（已添加 alt 规则）
+const featuredProducts = [
+  {
+    title: 'Double Wall Corrugated Pipe Machine',
+    slug: 'double-wall-pipe-machine',
+    description: 'High-speed double wall corrugator for HDPE/PVC pipes, diameter 20-1600mm. Ideal for drainage and cable ducting.',
+    image: '/images/dwc-machine.jpg',
+    link: '/products/category/double-wall-pipe-machine',
+    isCore: true,
+    alt: 'Double Wall Corrugator – HDPE pipe corrugator machine'
+  },
+  {
+    title: 'Single Wall Corrugated Pipe Machine',
+    slug: 'single-wall-pipe-machine',
+    description: 'Efficient single wall corrugator for cable conduits, Min ID 4.5mm. Perfect for telecom and electrical conduits.',
+    image: '/images/swc-machine.jpg',
+    link: '/products/category/single-wall-pipe-machine',
+    isCore: true,
+    alt: 'Single Wall Corrugator – high-speed single wall corrugator for conduits'
+  },
+  {
+    title: 'Prestressed Concrete Corrugated Pipe Machine',
+    slug: 'prestressed-concrete-pipe-machine',
+    description: 'Specialized machine for producing prestressed concrete pipe corrugated forms. High precision and durability.',
+    image: '/images/prestressed-machine.jpg',
+    link: '/products/category/prestressed-concrete-pipe-machine',
+    isCore: false,
+    alt: 'Prestressed Concrete Corrugator – heavy-duty concrete pipe corrugator'
+  },
+  {
+    title: 'Vacuum Cleaner Corrugated Hose Machine',
+    slug: 'vacuum-cleaner-hose-machine',
+    description: 'Precision corrugated hose machine for vacuum cleaner and industrial hose applications. Compact and reliable.',
+    image: '/images/vacuum-hose-machine.jpg',
+    link: '/products/category/vacuum-cleaner-hose-machine',
+    isCore: false,
+    alt: 'Vacuum Hose Corrugator – small diameter corrugated hose machine'
+  },
+  {
+    title: 'Spiral Wrap Band Protector Machine',
+    slug: 'spiral-wrap-band-machine',
+    description: 'Automatic spiral wrap band machine for protective bundling of cables and hoses. High-speed and customizable.',
+    image: '/images/spiral-wrap-machine.jpg',
+    link: '/products/category/spiral-wrap-band-machine',
+    isCore: false,
+    alt: 'Spiral Wrap Corrugator – band protector machine for cables'
+  }
+];
+
+const coreProducts = featuredProducts.filter(p => p.isCore);
+const otherProducts = featuredProducts.filter(p => !p.isCore);
+
+// --- 获取最新新闻和技术文章 ---
+let latestPosts = [];
+
+try {
+  const technicalArticles = await Astro.glob('../content/technical-articles/*.md');
+  const companyNews = await Astro.glob('../content/company-news/*.md');
+
+  const allPosts = [
+    ...technicalArticles.map(post => ({
+      ...post,
+      category: 'Technical Articles',
+      url: `/technical-articles/${post.frontmatter.slug || post.file.split('/').pop()?.replace('.md', '')}`,
+    })),
+    ...companyNews.map(post => ({
+      ...post,
+      category: 'Company News',
+      url: `/company-news/${post.frontmatter.slug || post.file.split('/').pop()?.replace('.md', '')}`,
+    })),
+  ];
+
+  allPosts.sort((a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date));
+  latestPosts = allPosts.slice(0, 3);
+} catch (e) {
+  // 占位文章
+  latestPosts = [
+    {
+      frontmatter: {
+        title: 'How to Reduce Energy Consumption by 30% in corrugated pipe extruder?',
+        date: '2026-02-10',
+        description: 'Discover the latest servo motor technologies and heating strategies to lower your production costs.',
+      },
+      category: 'Technical Articles',
+      url: '/technical-articles/energy-saving',
+    },
+    {
+      frontmatter: {
+        title: 'Wings Plastic to Showcase New High-Speed Corrugator at Chinaplas 2026',
+        date: '2026-02-05',
+        description: 'Meet our engineering team in Shanghai and see our min 4.5mm pipe machine in action.',
+      },
+      category: 'Company News',
+      url: '/company-news/chinaplas-2026',
+    },
+    {
+      frontmatter: {
+        title: 'How to choose the single wall corrugated pipe winding & coiling way?',
+        date: '2026-01-28',
+        description: 'We shall know there are many kind of pipe winder & coiler design, so difference of them shall be clear for buyer.',
+      },
+      category: 'Technical Articles',
+      url: '/technical-articles/winding-coiling-guide',
+    },
+  ];
+}
 ---
-<Layout title="Home - Professional Corrugated Pipe Machinery">
-  <section style="text-align: center; padding: 4rem 0;">
-    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to Wings Corrugator</h1>
-    <p style="font-size: 1.25rem; color: #475569; max-width: 800px; margin: 0 auto;">Leading manufacturer of high-quality double wall, single wall, and spiral wound corrugated pipe production lines.</p>
+
+<Layout 
+  title="Pipe Corrugator Manufacturer | High-Speed DWC & Single Wall Extrusion Lines" 
+  description="Specialized manufacturer of Double Wall Corrugators and Single Wall Pipe Machines since 2016. High output, energy-saving corrugated pipe extrusion technologies for HDPE, PVC, and PP. Exporting to 50+ countries."
+>
+  <!-- Hero 轮播区域 -->
+  <section class="hero-carousel fade-in">
+    <div class="carousel-container" id="carouselContainer">
+      <!-- 幻灯片 1：双壁波纹管机（右上角文字） -->
+      <div class="carousel-slide active" style="background-image: url('/images/hdpe-double-wall-pipe-corrguator.jpg');">
+        <div class="hero-content hero-right">
+          <h1 class="hero-title">
+            <span class="text-blue-700">Maximize Profit</span> with<br />High-Speed Double Wall Pipe Technology
+          </h1>
+          <p class="hero-subtitle">
+            Ideal for drainage, sewage, and cable ducting – Min ID20mm up to 1600mm diameter.
+          </p>
+          <div class="hero-buttons right-align">
+            <a href="/products/category/double-wall-pipe-machine" class="btn-primary">Double Wall Corrugator Details</a>
+            <a href="/contact" class="btn-outline">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <!-- 幻灯片 2：单壁波纹管机（左上角文字 + 技术标签） -->
+      <div class="carousel-slide" style="background-image: url('/images/plastic-single-wall-pipe-corrugator.jpg');">
+        <div class="hero-content hero-left">
+          <h1 class="hero-title-single">High-Speed Single Wall<br />Corrugated Pipe Machine</h1>
+          <h2 class="hero-subtitle-single">Maximum Efficiency with the Best Price-Performance Ratio.</h2>
+          <div class="tech-tag">
+            <span class="tech-tag-text">Technical Breakthrough: Min. Inner Diameter 4.5mm</span>
+          </div>
+          <div class="hero-buttons">
+            <a href="/products/category/single-wall-pipe-machine" class="btn-primary">Single Wall Corrugator Specs</a>
+            <a href="/contact" class="btn-outline">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel-arrow prev" id="prevArrow">❮</button>
+    <button class="carousel-arrow next" id="nextArrow">❯</button>
+    <div class="carousel-dots">
+      <span class="dot active" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+    </div>
   </section>
 
-  <section style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 4rem 0;">
-    <div style="background: #f8fafc; padding: 2rem; border-radius: 1rem;">
-      <h3>Double Wall Corrugator</h3>
-      <p>HDPE/PVC, 110-800mm diameter, up to 450kg/h output.</p>
-    </div>
-    <div style="background: #f8fafc; padding: 2rem; border-radius: 1rem;">
-      <h3>Single Wall Corrugator</h3>
-      <p>For cable conduits, 16-63mm diameter, high speed.</p>
-    </div>
-    <div style="background: #f8fafc; padding: 2rem; border-radius: 1rem;">
-      <h3>Spiral Wound Pipe Line</h3>
-      <p>Large diameter up to 3000mm for drainage.</p>
+  <!-- 信任条 -->
+  <section class="trust-bar fade-in">
+    <div class="trust-grid">
+      <div class="trust-item">
+        <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span class="trust-text">15+ Years Experience</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span class="trust-text">50+ Countries</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span class="trust-text">CE Certified</span>
+      </div>
+      <div class="trust-item">
+        <svg class="trust-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <span class="trust-text">24/7 Support</span>
+      </div>
     </div>
   </section>
+
+  <!-- 企业简介板块 -->
+  <section class="about-section fade-in">
+    <div class="about-container">
+      <div class="about-text">
+        <span class="about-label">WHO WE ARE</span>
+        <h2 class="about-title">Built on 20 Years of Expertise.<br />Driven by Modern Innovation.</h2>
+        <p class="about-description">
+          Established in 2016, Wings Plastic Technology combines agile innovation with deep industry heritage. Our core engineering team brings over 20 years of specialized experience focused purely on corrugated pipe machinery. Unlike general extrusion manufacturers, we dedicate 100% of our R&D to perfecting Double Wall Corrugators and Single Wall Corrugation Lines, ensuring higher stability and output for manufacturers in 50+ countries.
+        </p>
+        <!-- 数据统计 -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-number">2016</span>
+            <span class="stat-label">Year Founded</span>
+            <div class="progress-bar"><div class="progress-fill" style="width: 90%"></div></div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">20+</span>
+            <span class="stat-label">Years Expertise</span>
+            <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Global Markets</span>
+            <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+          </div>
+        </div>
+        <!-- 引用块 -->
+        <div class="quote-block">
+          <span class="quote-icon">“</span>
+          <p class="quote-text">100% R&D focused on corrugated – that’s the Wings difference.</p>
+        </div>
+      </div>
+
+      <!-- 右侧图片（双图叠加） -->
+      <div class="about-images">
+        <div class="dot-pattern"></div>
+        <img src="/images/workroom of wingsplastic.jpg" alt="Wings Plastic modern production facility" class="main-image">
+        <img src="/images/wingsplastic-exhbition for machine.jpg" alt="Wings Plastic team at exhibition showcasing corrugator machines" class="overlay-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- 证书画廊 -->
+  <section class="certificate-gallery">
+    <div class="cert-gallery-container">
+      <img src="/images/CE-Corrugated-Pipe-Machine.jpg" alt="CE Certificate for Corrugated Pipe Machine" class="cert-img" id="cert1" data-full="/images/CE-Corrugated-Pipe-Machine.jpg">
+      <img src="/images/CE-Spiral-Wrap-Protector-Machine.jpg" alt="CE Certificate for Spiral Wrap Protector Machine" class="cert-img" id="cert2" data-full="/images/CE-Spiral-Wrap-Protector-Machine.jpg">
+    </div>
+  </section>
+
+  <!-- 客户 Logo 滚动条 -->
+  <section class="client-marquee">
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <img src="/images/customer-logo (1).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (2).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (3).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (4).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (5).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (6).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (7).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (1).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (2).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (3).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (4).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (5).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (6).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+        <img src="/images/customer-logo (7).jpg" alt="Global Partner of Wings Plastic" class="client-logo">
+      </div>
+    </div>
+  </section>
+
+  <!-- 极细分割线 -->
+  <div class="thin-divider"></div>
+
+  <!-- 产品展示区 -->
+  <section class="products fade-in">
+    <div class="section-header">
+      <h2>Core Extrusion Machinery</h2>
+      <div class="divider"></div>
+      <p class="section-description">Discover our range of high-performance machines designed for efficiency and durability.</p>
+    </div>
+
+    <!-- 核心产品（第一行，两列） -->
+    <div class="core-grid">
+      {coreProducts.map((product) => {
+        let techParam = '';
+        if (product.slug === 'double-wall-pipe-machine') techParam = 'Min ID 20mm';
+        else if (product.slug === 'single-wall-pipe-machine') techParam = 'Max 35m/min';
+        else techParam = '';
+        return (
+          <a href={product.link} class="product-card core">
+            <span class="core-badge">Best Seller</span>
+            <div class="product-image core-image">
+              <img src={product.image} alt={product.alt} />
+            </div>
+            <div class="product-params">
+              <span class="param">⚡ {techParam}</span>
+            </div>
+            <div class="product-info">
+              <h3>{product.title}</h3>
+              <p>{product.description}</p>
+              <div class="card-footer">
+                {product.slug === 'double-wall-pipe-machine' ? 'Double Wall Corrugator Details' : 'Single Wall Corrugator Details'}
+                <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- 其他产品（第二行，三列） -->
+    <div class="other-grid">
+      {otherProducts.map((product) => {
+        let techParam = '';
+        let detailsText = 'View Details';
+        if (product.slug === 'prestressed-concrete-pipe-machine') {
+          techParam = 'Max 3m/min';
+          detailsText = 'Concrete Corrugator Details';
+        } else if (product.slug === 'vacuum-cleaner-hose-machine') {
+          techParam = 'Max 100mm';
+          detailsText = 'Hose Corrugator Details';
+        } else if (product.slug === 'spiral-wrap-band-machine') {
+          techParam = 'Easy Operation';
+          detailsText = 'Spiral Wrap Details';
+        }
+        return (
+          <a href={product.link} class="product-card">
+            <div class="product-image other-image">
+              <img src={product.image} alt={product.alt} />
+            </div>
+            <div class="product-params">
+              <span class="param">⚡ {techParam}</span>
+            </div>
+            <div class="product-info">
+              <h3>{product.title}</h3>
+              <p>{product.description}</p>
+              <div class="card-footer">
+                {detailsText}
+                <svg class="arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- 最新动态板块（纯文字版） -->
+  <section class="latest-news fade-in">
+    <div class="news-container">
+      <h2 class="news-title">Newest Technical Articles & Company News</h2>
+      <div class="news-grid">
+        {latestPosts.map((post) => (
+          <a href={post.url} class="news-card group">
+            <div class="news-content p-8">
+              <div class="news-meta">
+                <span class="news-date">{new Date(post.frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                <span class="news-category">{post.category}</span>
+              </div>
+              <h3 class="news-headline">{post.frontmatter.title}</h3>
+              <p class="news-summary">{post.frontmatter.description}</p>
+              <div class="news-readmore">
+                Read More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="arrow-icon group-hover:translate-x-1"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部：留言板 + 地图（统一高度） -->
+  <section class="contact-white">
+    <div class="contact-white-container">
+      <!-- 左侧：留言板表单（垂直居中） -->
+      <div class="contact-form">
+        <div class="form-wrapper">
+          <h2 class="form-title">Send Us a Message</h2>
+          <form id="contactForm" onsubmit="return handleSubmit(event)">
+            <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+            <div class="form-group">
+              <label for="name">Name *</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone *</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" required>
+            </div>
+            <div class="form-group">
+              <label for="product">Interested Pipe Machine *</label>
+              <input type="text" id="product" name="product" placeholder="e.g. Double Wall Corrugator" required>
+            </div>
+            <button type="submit" class="submit-btn">Submit Inquiry</button>
+            <p class="form-note">We'll reply within 24 hours.</p>
+          </form>
+        </div>
+      </div>
+      <!-- 右侧：地图 + 交通信息 -->
+      <div class="contact-map">
+        <div class="map-placeholder">
+          <span>Google Maps Placeholder<br />青岛胶州</span>
+        </div>
+        <div class="transport-info">
+          <p>✈️ 20 minutes from Qingdao Airport</p>
+          <p>🚄 15 minutes from Jiaozhou Bei Train Station</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模态框（用于证书放大） -->
+  <div id="modal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-img">
+  </div>
 </Layout>
+
+<style>
+  /* 引入 Inter 字体 */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { overflow-x: hidden; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeInUp 0.8s ease forwards; }
+
+  /* Hero 轮播区域（不变） */
+  .hero-carousel {
+    width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
+    overflow: hidden; height: 80vh; min-height: 600px;
+  }
+  .carousel-container { display: flex; width: 200%; height: 100%; transition: transform 0.5s ease; }
+  .carousel-slide { flex: 0 0 50%; height: 100%; background-size: cover; background-position: center; position: relative; }
+  .hero-content { position: absolute; z-index: 10; max-width: 650px; text-shadow: 0 2px 8px rgba(255,255,255,0.5); }
+  .hero-right { top: 15%; right: 5%; text-align: right; }
+  .hero-left { top: 10%; left: 5%; text-align: left; max-width: 600px; }
+  .hero-title { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; color: #0f172a; }
+  .text-blue-700 { color: #1d4ed8; }
+  .hero-title-single { font-size: 2.8rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; color: #1e3a8a; word-break: break-word; overflow-wrap: break-word; max-width: 100%; }
+  .hero-subtitle-single { font-size: 1.4rem; font-weight: 500; color: #334155; margin-bottom: 1rem; line-height: 1.3; }
+  .hero-subtitle { font-size: 1.25rem; color: #334155; margin-bottom: 1.5rem; }
+  .tech-tag { display: flex; align-items: center; margin-bottom: 1.5rem; }
+  .tech-tag::before { content: ''; width: 4px; height: 1.8rem; background-color: #2563eb; margin-right: 1rem; }
+  .tech-tag-text { font-weight: 700; color: #1e293b; font-size: 1.1rem; line-height: 1.4; }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .right-align { justify-content: flex-end; }
+  .btn-primary, .btn-outline { padding: 1rem 2rem; border-radius: 6px; font-weight: 600; text-decoration: none; transition: 0.2s; display: inline-block; }
+  .btn-primary { background-color: #0f172a; color: white; border: 2px solid #0f172a; }
+  .btn-primary:hover { background-color: #1e293b; transform: translateY(-2px); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1); }
+  .btn-outline { background: transparent; color: #0f172a; border: 2px solid #0f172a; }
+  .btn-outline:hover { background: #0f172a; color: white; transform: translateY(-2px); box-shadow: 0 8px 15px -3px rgba(0,0,0,0.1); }
+
+  .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 2rem; cursor: pointer; z-index: 20; display: flex; align-items: center; justify-content: center; color: #0f172a; transition: 0.2s; border: 1px solid #cbd5e1; }
+  .carousel-arrow:hover { background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .prev { left: 20px; }
+  .next { right: 20px; }
+  .carousel-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 20; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.2s; border: 1px solid #94a3b8; }
+  .dot.active { background: #0f172a; border-color: #0f172a; transform: scale(1.2); }
+
+  /* 信任条 */
+  .trust-bar { width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background-color: #1e293b; color: white; padding: 2rem 0; }
+  .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1200px; margin: 0 auto; text-align: center; gap: 2rem; padding: 0 1rem; }
+  .trust-item { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+  .trust-icon { width: 32px; height: 32px; stroke: white; stroke-width: 1.5; fill: none; }
+  .trust-text { font-weight: 600; color: #cbd5e1; font-size: 0.95rem; letter-spacing: 0.03em; text-transform: uppercase; }
+
+  /* 企业简介板块 */
+  .about-section { width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background-color: #f8fafc; padding: 4rem 0; }
+  .about-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-label { display: inline-block; color: #2563eb; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+  .about-title { font-size: 2.5rem; font-weight: 800; line-height: 1.2; color: #0f172a; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+  .about-description { color: #475569; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
+  .stats-row { display: flex; gap: 3rem; margin-bottom: 1.5rem; }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-number { font-size: 2.2rem; font-weight: 700; color: #1e3a8a; line-height: 1.2; }
+  .stat-label { font-size: 0.9rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.5rem; }
+  .progress-bar { width: 100%; height: 4px; background-color: #e2e8f0; border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background-color: #2563eb; border-radius: 2px; }
+  .quote-block { display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 1.5rem; padding: 1rem 1.5rem; background-color: #ffffff; border-left: 4px solid #2563eb; border-radius: 0.5rem; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+  .quote-icon { font-size: 3rem; line-height: 1; color: #2563eb; font-weight: 700; margin-right: 0.5rem; }
+  .quote-text { font-size: 1rem; color: #334155; font-style: italic; }
+
+  /* 右侧图片（双图叠加） */
+  .about-images {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .dot-pattern {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    background-image: radial-gradient(#2563eb 2px, transparent 2px);
+    background-size: 15px 15px;
+    opacity: 0.3;
+    z-index: 0;
+  }
+  .main-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 5;
+    display: block;
+    max-height: 400px;
+    object-fit: cover;
+  }
+  .overlay-image {
+    position: absolute;
+    bottom: -2rem;
+    left: -2rem;
+    width: 55%;
+    border: 8px solid white;
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+
+  /* 独立证书画廊 */
+  .certificate-gallery {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: white;
+    padding: 2rem 0;
+  }
+  .cert-gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+  }
+  .cert-img {
+    height: 120px;
+    width: auto;
+    transition: all 0.3s ease;
+    cursor: zoom-in;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .cert-img:hover {
+    transform: scale(1.5);
+    z-index: 50;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  }
+
+  /* 客户 Logo 滚动条 */
+  .client-marquee {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: white;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .marquee-container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+  }
+  .marquee-content {
+    display: flex;
+    animation: scroll 30s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-content:hover {
+    animation-play-state: paused;
+  }
+  .client-logo {
+    height: 40px;
+    width: auto;
+    margin: 0 2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    object-fit: contain;
+  }
+  .client-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* 极细分割线 */
+  .thin-divider { width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; border-top: 1px solid #f1f5f9; margin: 1.5rem 0; }
+
+  /* 产品展示区 */
+  .products { padding: 4rem 2rem; background-color: white; }
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-header h2 { font-size: 2.5rem; color: #0f172a; font-weight: 800; letter-spacing: -0.02em; }
+  .divider { width: 60px; height: 4px; background: #2563eb; margin: 1.5rem auto; }
+  .section-description { color: #64748b; font-size: 1.1rem; max-width: 100%; margin: 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .core-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; max-width: 1200px; margin: 0 auto 2.5rem; }
+  .other-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+  .product-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; text-decoration: none; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; display: flex; flex-direction: column; position: relative; }
+  .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 0 0 1px #2563eb inset; border-color: #2563eb; }
+  .product-card.core { border-color: #2563eb; }
+  .core-badge { position: absolute; top: 1rem; right: 1rem; background: #b45309; color: white; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 50px; z-index: 10; }
+  .product-image { background: #f8fafc; padding: 2rem; display: flex; align-items: center; justify-content: center; width: 100%; border-bottom: 1px solid #e2e8f0; }
+  .core-image { height: 300px; }
+  .other-image { height: 220px; }
+  .product-image img { width: 100%; height: 100%; object-fit: contain; }
+  .product-params { display: flex; gap: 0.75rem; padding: 0.5rem 2rem 0; color: #475569; font-size: 0.9rem; font-weight: 600; }
+  .param { color: #1e3a8a; }
+  .product-info { padding: 1.5rem 2rem 2rem; flex-grow: 1; display: flex; flex-direction: column; text-align: left; }
+  .product-info h3 { color: #0f172a; font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .core .product-info h3 { font-size: 1.5rem; }
+  .product-info p { color: #64748b; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-footer { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; color: #2563eb; font-weight: 600; margin-top: auto; }
+  .card-footer svg { margin-left: 0.5rem; }
+  .arrow-icon { transition: transform 0.2s; }
+  .product-card:hover .arrow-icon { transform: translateX(4px); }
+
+  /* 最新动态板块（纯文字版） */
+  .latest-news { padding: 4rem 2rem; background-color: white; width: 100vw; position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; }
+  .news-container { max-width: 1200px; margin: 0 auto; }
+  .news-title { font-size: 2.5rem; font-weight: 700; color: #0f172a; text-align: center; margin-bottom: 2.5rem; letter-spacing: -0.02em; }
+  .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .news-card {
+    display: block;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-top: 4px solid #2563eb; /* 蓝色装饰线 */
+  }
+  .news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  }
+  .news-card .news-content {
+    padding: 2rem;
+  }
+  .news-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .news-date {
+    color: #64748b;
+    text-transform: uppercase;
+  }
+  .news-category {
+    background-color: #eff6ff;
+    color: #2563eb;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+  }
+  .news-headline {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    transition: color 0.2s;
+  }
+  .news-card:hover .news-headline {
+    color: #2563eb;
+  }
+  .news-summary {
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .news-readmore {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .news-readmore .arrow-icon {
+    transition: transform 0.2s;
+  }
+  .news-card:hover .news-readmore .arrow-icon {
+    transform: translateX(4px);
+  }
+
+  /* 底部留言板 + 地图（统一高度 400px） */
+  .contact-white {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: white;
+    padding: 4rem 2rem;
+  }
+  .contact-white-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: stretch; /* 使两列高度拉伸一致 */
+  }
+  .contact-form {
+    background-color: #f8fafc;
+    border-radius: 1rem;
+    padding: 2rem;
+    height: 400px; /* 固定高度 */
+    display: flex;
+    align-items: center; /* 垂直居中 */
+  }
+  .form-wrapper {
+    width: 100%;
+  }
+  .form-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1.5rem;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #334155;
+    margin-bottom: 0.3rem;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.2s;
+  }
+  .form-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+  .submit-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .submit-btn:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+  }
+  .form-note {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .contact-map {
+    height: 400px; /* 与左侧一致 */
+    display: flex;
+    flex-direction: column;
+  }
+  .map-placeholder {
+    width: 100%;
+    height: 320px; /* 留出下方文字空间 */
+    background-color: #e2e8f0;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .transport-info {
+    text-align: center;
+    color: #2563eb;
+    font-weight: 500;
+    background-color: #eff6ff;
+    padding: 0.5rem;
+    border-radius: 50px;
+    margin-top: 0.5rem;
+  }
+  .transport-info p {
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+  }
+
+  /* 模态框样式 */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    cursor: pointer;
+  }
+  .modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f5f9;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  .close:hover,
+  .close:focus {
+    color: #94a3b8;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* 响应式 */
+  @media (max-width: 1200px) { .hero-title-single { font-size: 2.5rem; } .hero-left { max-width: 550px; } }
+  @media (max-width: 1024px) {
+    .hero-title-single { font-size: 2.2rem; line-height: 1.2; } .hero-left { max-width: 500px; top: 8%; } .hero-title { font-size: 2.8rem; }
+    .about-container { gap: 2rem; } .about-title { font-size: 2rem; } .stat-number { font-size: 1.8rem; } .news-grid { gap: 1.5rem; }
+    .contact-white-container { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-form, .contact-map { height: auto; min-height: 400px; }
+    .contact-form { padding: 2rem; }
+  }
+  @media (max-width: 768px) {
+    .hero-carousel { height: auto; min-height: auto; } .carousel-container { flex-wrap: nowrap; } .carousel-slide { height: 600px; }
+    .hero-content { position: relative; top: auto; left: auto; right: auto; text-align: center; padding: 2rem 1rem; background: rgba(255,255,255,0.85); margin: 0; max-width: 100%; text-shadow: none; }
+    .hero-buttons { justify-content: center; } .right-align { justify-content: center; } .hero-left { top: auto; left: auto; max-width: 100%; }
+    .hero-title-single { font-size: 2rem; } .carousel-arrow { width: 40px; height: 40px; font-size: 1.5rem; }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); } .about-container { grid-template-columns: 1fr; gap: 3rem; } .about-text { text-align: center; }
+    .stats-row { justify-content: center; } .about-images { max-width: 500px; margin: 0 auto; }
+    .dot-pattern { display: none; } .overlay-image { bottom: -1rem; left: -1rem; border-width: 4px; } .section-description { white-space: normal; font-size: 1rem; padding: 0 1rem; }
+    .core-grid, .other-grid, .news-grid { grid-template-columns: 1fr; } .core-image, .other-image { height: 240px; } .core .product-info h3 { font-size: 1.25rem; }
+    .news-grid { gap: 2rem; }
+    .client-marquee { height: 80px; }
+    .client-logo { height: 30px; margin: 0 1rem; }
+    .cert-img { height: 80px; }
+    .cert-gallery-container { gap: 2rem; }
+    .contact-form, .contact-map { height: auto; }
+    .transport-info p { font-size: 0.8rem; }
+  }
+</style>
+
+<script>
+  (function() {
+    // 轮播功能
+    const container = document.getElementById('carouselContainer');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevArrow');
+    const nextBtn = document.getElementById('nextArrow');
+
+    if (container && slides.length > 0) {
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        container.style.transform = `translateX(-${currentIndex * 50}%)`;
+        dots.forEach((dot, i) => {
+          if (i === currentIndex) dot.classList.add('active');
+          else dot.classList.remove('active');
+        });
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => updateSlide(currentIndex - 1));
+      if (nextBtn) nextBtn.addEventListener('click', () => updateSlide(currentIndex + 1));
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => updateSlide(idx));
+      });
+    }
+
+    // 证书点击放大（模态框）
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const certs = document.querySelectorAll('.cert-img');
+
+    function openModal(src) {
+      modal.style.display = 'block';
+      modalImg.src = src;
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    certs.forEach(cert => {
+      cert.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const fullSrc = cert.dataset.full || cert.src;
+        openModal(fullSrc);
+      });
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    window.closeModal = closeModal;
+
+    // 表单提交处理（Honeypot 防机器人）
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        const honeypot = document.querySelector('input[name="honeypot"]');
+        if (honeypot && honeypot.value !== '') {
+          e.preventDefault();
+          alert('Spam detected. If you are human, please leave the hidden field empty.');
+          return false;
+        }
+        e.preventDefault(); // 演示用，实际提交请替换为真实逻辑
+        alert('Thank you for your inquiry. We will get back to you within 24 hours.');
+        contactForm.reset();
+      });
+    }
+  })();
+</script>

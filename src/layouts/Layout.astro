@@ -1,17 +1,15 @@
 ---
-// 导入所需组件
+// src/layouts/Layout.astro
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 
-// 定义页面 Props 类型（用于传入标题和描述）
 export interface Props {
   title: string;
   description?: string;
 }
 
-// 接收传入的 props
 const { title, description } = Astro.props;
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +19,7 @@ const { title, description } = Astro.props;
   <meta name="description" content={description || 'Professional corrugated pipe machinery manufacturer'} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
     body { background: #ffffff; color: #1e293b; line-height: 1.5; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
     main { min-height: 60vh; padding: 3rem 0; }
@@ -30,8 +28,189 @@ const { title, description } = Astro.props;
 <body>
   <Header />
   <main class="container">
-    <slot />  <!-- 页面内容将插入这里 -->
+    <slot />
   </main>
-  <Footer />
+
+  <!-- 全新 Footer (四列布局 + 版权) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <!-- 第一列：公司简介 + Logo (白色版本) -->
+      <div class="footer-col">
+        <img src="/images/logo-white.png" alt="Wings Plastic" class="footer-logo" />
+        <p class="footer-description">
+          Wings Plastic Technology is a premier manufacturer specializing in plastic corrugated pipe extrusion lines. We deliver high-speed, energy-efficient DWC and SWC pipe machines to the global market.
+        </p>
+      </div>
+
+      <!-- 第二列：产品链 -->
+      <div class="footer-col">
+        <h4 class="footer-title">Product Lines</h4>
+        <ul class="footer-links">
+          <li><a href="/products/category/double-wall-pipe-machine">Double Wall Corrugated Machine</a></li>
+          <li><a href="/products/category/single-wall-pipe-machine">Single Wall Corrugated Machine</a></li>
+          <li><a href="/products/category/prestressed-concrete-pipe-machine">Prestressed Concrete Machine</a></li>
+          <li><a href="/products/category/vacuum-cleaner-hose-machine">Vacuum Cleaner Hose Machine</a></li>
+          <li><a href="/products/category/spiral-wrap-band-machine">Spiral Wrap Band Machine</a></li>
+          <li><a href="/products/category/corrugators">Corrugators & Components</a></li>
+        </ul>
+      </div>
+
+      <!-- 第三列：快速导航 -->
+      <div class="footer-col">
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="/applications">Applications</a></li>
+          <li><a href="/solutions">Solutions</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/technical-articles">Technical Articles</a></li>
+          <li><a href="/company-news">Company News</a></li>
+        </ul>
+      </div>
+
+      <!-- 第四列：联系我们（公司名已更正） -->
+      <div class="footer-col">
+        <h4 class="footer-title">Contact Us</h4>
+        <address class="footer-address">
+          <p><strong>Qingdao Wings Plastic Technology Co.,Ltd</strong></p>
+          <p>No. 123, Qingdao Road, Shandong, China</p>
+          <p>📞 <a href="tel:+8615092066953">+86 15092066953</a></p>
+          <p>✉️ <a href="mailto:info@wingsplastic.com">info@wingsplastic.com</a></p>
+          <p>🌐 <a href="https://www.wingsplastic.com">www.wingsplastic.com</a></p>
+        </address>
+      </div>
+    </div>
+
+    <!-- 底部版权条 -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-container">
+        <p>© {new Date().getFullYear()} Qingdao Wings Plastic Technology Co.,Ltd. All rights reserved.</p>
+        <p class="footer-legal">
+          <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+        </p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
+
+<style>
+  .site-footer {
+    background-color: #0f172a; /* slate-900 */
+    color: #cbd5e1;
+    padding-top: 4rem;
+    border-top: 1px solid #1e293b;
+    margin-top: 4rem;
+  }
+  .footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .footer-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    align-self: flex-start;
+  }
+  .footer-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #94a3b8;
+  }
+  .footer-title {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-size: 0.95rem;
+  }
+  .footer-links a:hover {
+    color: white;
+  }
+  .footer-address p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    font-style: normal;
+    margin-bottom: 0.5rem;
+  }
+  .footer-address a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-address a:hover {
+    color: white;
+  }
+
+  /* 底部版权条 */
+  .footer-bottom {
+    background-color: #020617; /* slate-950 */
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid #1e293b;
+  }
+  .footer-bottom-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+  .footer-legal {
+    display: flex;
+    gap: 1rem;
+  }
+  .footer-legal a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-legal a:hover {
+    color: white;
+  }
+
+  /* 响应式 */
+  @media (max-width: 1024px) {
+    .footer-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+  }
+  @media (max-width: 640px) {
+    .footer-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .footer-bottom-container {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

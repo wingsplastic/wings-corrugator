@@ -1,0 +1,26 @@
+---
+// src/pages/resources.astro
+import Layout from '../layouts/Layout.astro';
+
+// 定义 Resources 下的子分类（与导航下拉一致）
+const resourceTypes = [
+  { name: 'Technical Articles', slug: 'technical-articles', description: 'In-depth guides and technical insights on pipe extrusion.' },
+  { name: 'Company News', slug: 'company-news', description: 'Latest updates from Wings Corrugator.' },
+  { name: 'Downloads', slug: 'downloads', description: 'Brochures, catalogs, and technical datasheets.' }
+];
+---
+
+<Layout title="Resources - Wings Corrugator">
+  <h1>Resources</h1>
+  <p>Explore our technical articles, company news, and downloadable resources.</p>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+    {resourceTypes.map(item => (
+      <a href={`/${item.slug}`} style="text-decoration: none; color: inherit;">
+        <div style="border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; padding: 1.5rem; transition: box-shadow 0.3s;">
+          <h3 style="margin-bottom: 0.5rem;">{item.name}</h3>
+          <p style="color: #475569;">{item.description}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+</Layout>

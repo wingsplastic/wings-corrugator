@@ -1,0 +1,52 @@
+---
+// src/pages/extrusion-lines.astro
+import Layout from '../layouts/Layout.astro';
+
+// 定义 Extrusion Lines 下的子分类（与导航下拉一致）
+const subCategories = [
+  { name: 'Single Wall Pipe Machine', slug: 'single-wall-pipe-machine' },
+  { name: 'Double Wall Pipe Machine', slug: 'double-wall-pipe-machine' },
+  { name: 'Prestressed Concrete Pipe Machine', slug: 'prestressed-concrete-pipe-machine' },
+  { name: 'Vacuum Cleaner Hose Machine', slug: 'vacuum-cleaner-hose-machine' },
+  { name: 'Spiral Wrap Band Machine', slug: 'spiral-wrap-band-machine' }
+];
+
+// 获取所有产品
+const allProducts = await Astro.glob('../content/products/*.md');
+
+// 为每个子分类获取产品数量和示例图片
+const categoriesWithInfo = subCategories.map(cat => {
+  const productsInCat = allProducts.filter(p => p.frontmatter.category === cat.name);
+  const sampleImage = productsInCat.length > 0 ? productsInCat[0].frontmatter.image : null;
+  return {
+    name: cat.name,
+    slug: cat.slug,
+    count: productsInCat.length,
+    image: sampleImage
+  };
+});
+---
+
+<Layout title="Extrusion Lines - Wings Corrugator">
+  <h1>Extrusion Lines</h1>
+  <p>Explore our range of specialized pipe extrusion lines.</p>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+    {categoriesWithInfo.map(cat => (
+      <a href={`/products/category/${cat.slug}`} style="text-decoration: none; color: inherit;">
+        <div style="border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; transition: box-shadow 0.3s;">
+          {cat.image ? (
+            <img src={cat.image} alt={cat.name} style="width: 100%; height: 200px; object-fit: cover;" />
+          ) : (
+            <div style="width: 100%; height: 200px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; color: #64748b;">
+              No image
+            </div>
+          )}
+          <div style="padding: 1.5rem;">
+            <h3 style="margin-bottom: 0.5rem;">{cat.name}</h3>
+            <p style="color: #475569;">{cat.count} product{cat.count !== 1 ? 's' : ''}</p>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</Layout>

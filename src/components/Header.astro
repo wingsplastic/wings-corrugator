@@ -2,43 +2,290 @@
 // src/components/Header.astro
 ---
 
-<header style="background: #0f172a; color: white; padding: 1rem 0;">
-  <div class="container" style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
-    <a href="/" style="color: white; text-decoration: none; font-size: 1.5rem; font-weight: bold;">Wings Corrugator</a>
-    <nav style="display: flex; gap: 2rem; position: relative;">
-      <!-- 普通链接 -->
-      <a href="/" style="color: white; text-decoration: none;">Home</a>
-      
-      <!-- Products 下拉菜单 -->
-      <div style="position: relative; display: inline-block;">
-        <a href="/products" style="color: white; text-decoration: none; cursor: default;">Products ▾</a>
-        <div class="dropdown-content" style="display: none; position: absolute; top: 100%; left: 0; background-color: #1e293b; min-width: 250px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1; border-radius: 0.5rem; padding: 0.5rem 0;">
-          <a href="/products/category/extruders" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Extruders</a>
-          <a href="/products/category/extrusion-moulds" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Extrusion Moulds</a>
-          <a href="/products/category/swc-pipe-corrugator" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">SWC Pipe Corrugator</a>
-          <a href="/products/category/dwc-pipe-corrugator" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">DWC Pipe Corrugator</a>
-          <a href="/products/category/spiral-pipe-corrugator" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Spiral Pipe Corrugator</a>
-          <a href="/products/category/pipe-winder-units" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Pipe Winder Units</a>
-          <a href="/products/category/spiral-wrap-units" style="color: #e2e8f0; padding: 0.75rem 1.5rem; display: block; text-decoration: none;">Spiral Wrap Units</a>
+<!-- 整个头部容器（包含 Top Bar 和导航栏），加浅阴影 -->
+<header class="site-header">
+  <!-- 顶部联系条 (Top Bar) 白色背景，字体放大 -->
+  <div class="top-bar">
+    <div class="top-bar-container">
+      <!-- 左侧联系方式 -->
+      <div class="top-bar-left">
+        <a href="https://wa.me/8615092066953" target="_blank" rel="noopener" class="top-bar-link">
+          <!-- 替换为聊天气泡图标（代表 WhatsApp） -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-blue">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>+86 15092066953</span>
+        </a>
+        <a href="mailto:info@wingsplastic.com" class="top-bar-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-blue">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <span>info@wingsplastic.com</span>
+        </a>
+      </div>
+      <!-- 右侧语言栏：平铺显示，增加葡萄牙语 -->
+      <div class="top-bar-right">
+        <div class="language-links">
+          <a href="#" class="language-link">🇺🇸 English</a>
+          <span class="separator">|</span>
+          <a href="#" class="language-link">🇪🇸 Español</a>
+          <span class="separator">|</span>
+          <a href="#" class="language-link">🇵🇹 Português</a>
+          <span class="separator">|</span>
+          <a href="#" class="language-link">🇷🇺 Русский</a>
+          <span class="separator">|</span>
+          <a href="#" class="language-link">🇨🇳 中文</a>
         </div>
       </div>
+    </div>
+  </div>
 
-      <a href="/applications" style="color: white; text-decoration: none;">Applications</a>
-      <a href="/solutions" style="color: white; text-decoration: none;">Solutions</a>
-      <a href="/news" style="color: white; text-decoration: none;">News</a>
-      <a href="/about" style="color: white; text-decoration: none;">About Us</a>
-      <a href="/contact" style="color: white; text-decoration: none;">Contact</a>
-    </nav>
+  <!-- 主导航栏（白色背景） -->
+  <div class="main-header">
+    <div class="header-container">
+      <!-- Logo 高度加大 -->
+      <a href="/" class="logo-link">
+        <img src="/images/logo.png" alt="Wings Plastic - Corrugated Pipe Machine Manufacturer" class="logo-img" />
+      </a>
+      <nav class="main-nav">
+        <!-- Home -->
+        <a href="/" class="nav-link">Home</a>
+
+        <!-- Extrusion Lines 下拉菜单 -->
+        <div class="dropdown">
+          <a href="/extrusion-lines" class="nav-link">Extrusion Lines ▾</a>
+          <div class="dropdown-content">
+            <a href="/products/category/single-wall-pipe-machine" class="dropdown-item">Single Wall Pipe Machine</a>
+            <a href="/products/category/double-wall-pipe-machine" class="dropdown-item">Double Wall Pipe Machine</a>
+            <a href="/products/category/prestressed-concrete-pipe-machine" class="dropdown-item">Prestressed Concrete Pipe Machine</a>
+            <a href="/products/category/vacuum-cleaner-hose-machine" class="dropdown-item">Vacuum Cleaner Hose Machine</a>
+            <a href="/products/category/spiral-wrap-band-machine" class="dropdown-item">Spiral Wrap Band Machine</a>
+          </div>
+        </div>
+
+        <!-- Components 下拉菜单 -->
+        <div class="dropdown">
+          <a href="/components" class="nav-link">Components ▾</a>
+          <div class="dropdown-content">
+            <a href="/products/category/corrugators" class="dropdown-item">Corrugators</a>
+            <a href="/products/category/extruders" class="dropdown-item">Extruders</a>
+            <a href="/products/category/die-heads" class="dropdown-item">Die Heads</a>
+            <a href="/products/category/mould-blocks" class="dropdown-item">Mould Blocks</a>
+            <a href="/products/category/coilers-winders" class="dropdown-item">Coilers & Winders</a>
+          </div>
+        </div>
+
+        <!-- 普通链接 -->
+        <a href="/applications" class="nav-link">Applications</a>
+        <a href="/solutions" class="nav-link">Solutions</a>
+
+        <!-- Resources 下拉菜单 -->
+        <div class="dropdown">
+          <a href="/resources" class="nav-link">Resources ▾</a>
+          <div class="dropdown-content">
+            <a href="/technical-articles" class="dropdown-item">Technical Articles</a>
+            <a href="/company-news" class="dropdown-item">Company News</a>
+            <a href="/downloads" class="dropdown-item">Downloads</a>
+          </div>
+        </div>
+      </nav>
+    </div>
   </div>
 </header>
 
 <style>
-  /* 使用 :global 确保样式不受 Astro 组件作用域影响 */
-  :global(nav > div:hover .dropdown-content) {
-    display: block !important;
+  /* 整体头部容器（包含 Top Bar 和导航栏），加浅阴影 */
+  .site-header {
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* shadow-sm */
+    position: relative;
+    z-index: 100;
   }
-  :global(.dropdown-content a:hover) {
-    background-color: #334155;
-    color: white !important;
+
+  /* 顶部联系条 - 白色背景，字体放大到 16px */
+  .top-bar {
+    background-color: white;
+    color: #475569; /* slate-600 */
+    font-size: 1rem; /* 16px */
+    font-weight: 500; /* font-medium */
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f1f5f9; /* slate-100 */
+  }
+
+  .top-bar-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .top-bar-left {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .top-bar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #475569; /* slate-600 */
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .top-bar-link:hover {
+    color: #1d4ed8; /* blue-700 */
+  }
+
+  /* 图标品牌蓝，尺寸随字体放大 */
+  .icon-blue {
+    stroke: #2563eb; /* blue-600 */
+    width: 18px;
+    height: 18px;
+  }
+
+  .top-bar-right {
+    display: flex;
+    align-items: center;
+  }
+
+  /* 语言链接平铺，字体随父级 */
+  .language-links {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #475569;
+  }
+
+  .language-link {
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+
+  .language-link:hover {
+    color: #1d4ed8;
+  }
+
+  .separator {
+    color: #cbd5e1; /* slate-300 */
+  }
+
+  /* 主导航栏 */
+  .main-header {
+    background-color: white;
+    color: #0f172a; /* slate-900 */
+    padding: 0.75rem 0;
+  }
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-img {
+    height: 48px; /* h-12 */
+    width: auto;
+    display: block;
+  }
+
+  .main-nav {
+    display: flex;
+    gap: 2.5rem;
+    position: relative;
+    font-size: 1.0625rem; /* 17px */
+    font-weight: 600;
+  }
+
+  .nav-link {
+    color: #0f172a;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover {
+    color: #2563eb;
+  }
+
+  /* 下拉菜单样式保持不变 */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 250px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    z-index: 101;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-item {
+    color: #1e293b;
+    padding: 0.75rem 1.5rem;
+    display: block;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .dropdown-item:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .top-bar-container {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .top-bar-left {
+      justify-content: center;
+    }
+    .language-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .header-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .main-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      font-size: 1rem;
+    }
+    .logo-img {
+      height: 40px;
+    }
   }
 </style>
